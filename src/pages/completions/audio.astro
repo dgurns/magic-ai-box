@@ -1,0 +1,8 @@
+---
+export const partial = true;
+
+const formData = await Astro.request.formData();
+const question = formData.get("question");
+---
+
+<div>This is your answer to {question}</div>

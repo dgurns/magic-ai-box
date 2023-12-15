@@ -5,3 +5,12 @@ h1 {
 input[type="text"] {
   @apply rounded-xl border border-gray-300 p-4 hover:border-gray-500;
 }
+
+select {
+  @apply rounded-xl border border-gray-300 p-4 pr-12 hover:border-gray-500;
+}
+
+button,
+button[type="submit"] {
+  @apply rounded-xl bg-purple-600 p-4 font-semibold text-white hover:bg-purple-800;
+}

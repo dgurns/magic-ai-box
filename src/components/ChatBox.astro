@@ -1,0 +1,43 @@
+---
+const params = new URLSearchParams(Astro.url.search);
+const answerType = params.get("answer_type") || "audio";
+---
+
+<div
+  class="flex w-full flex-col items-start gap-8 rounded-3xl border-2 border-purple-600 bg-gray-50 p-8 md:w-[480px]"
+>
+  <form>
+    <select name="answer_type" onchange="this.form.submit()">
+      <option value="audio" selected={answerType === "audio"}
+        >Answer with audio</option
+      >
+      <option value="text" selected={answerType === "text"}
+        >Answer with text</option
+      >
+    </select>
+  </form>
+
+  <div
+    class="h-32 w-full rounded-xl border border-dashed border-gray-400 bg-white p-4"
+  >
+    <div id="completion"></div>
+    <div id="loading" class="htmx-indicator">Loading...</div>
+  </div>
+
+  <form
+    hx-post="/completions/audio"
+    hx-target="#completion"
+    hx-indicator="#loading"
+    onsubmit="document.getElementById('completion').innerHTML = ''"
+    class="flex w-full flex-col items-start gap-4"
+  >
+    <input
+      name="question"
+      type="text"
+      class="w-full"
+      placeholder="What would you like to ask?"
+      required
+    />
+    <button type="submit">Ask</button>
+  </form>
+</div>

@@ -1,18 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ChatBox from "../components/ChatBox.astro";
 ---
 
 <Layout title="Magic AI Box">
   <div class="flex flex-col gap-12 p-12 text-center">
     <h1>Magic AI Box</h1>
-    <div
-      class="w-full rounded-3xl border-2 border-blue-600 bg-gray-50 p-8 md:w-[480px]"
-    >
-      <input
-        type="text"
-        class="w-full"
-        placeholder="What would you like to ask?"
-      />
-    </div>
+    <ChatBox />
   </div>
 </Layout>
