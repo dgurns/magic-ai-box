@@ -1,4 +1,6 @@
 ---
+import "../globals.css";
+
 interface Props {
   title: string;
 }
@@ -16,8 +18,10 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="flex h-full w-full flex-col bg-gray-200">
-    <div class="">
+  <body
+    class="flex h-full w-full flex-col items-center justify-start overflow-y-auto bg-yellow-300"
+  >
+    <div class="flex flex-col">
       <slot />
     </div>
   </body>
