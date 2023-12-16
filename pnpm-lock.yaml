@@ -14,9 +14,6 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.0.3
     version: 5.0.3(astro@4.0.6)(tailwindcss@3.3.6)
-  '@cloudflare/ai':
-    specifier: ^1.0.41
-    version: 1.0.41
   astro:
     specifier: ^4.0.6
     version: 4.0.6(typescript@5.3.3)
@@ -28,6 +25,9 @@ dependencies:
     version: 5.3.3
 
 devDependencies:
+  '@cloudflare/ai':
+    specifier: ^1.0.41
+    version: 1.0.41
   '@tailwindcss/forms':
     specifier: ^0.5.7
     version: 0.5.7(tailwindcss@3.3.6)
@@ -430,7 +430,7 @@ packages:
 
   /@cloudflare/ai@1.0.41:
     resolution: {integrity: sha512-n6ViGS7Q2X62d0Gf2UcPB6a6iJPC5xoDnRWyS+IbxyTWmJk9fiNdlK6Ft9koLdF/X+CeIzphg+mrVH3nvPpT6g==}
-    dev: false
+    dev: true
 
   /@cloudflare/workerd-darwin-64@1.20231025.0:
     resolution: {integrity: sha512-MYRYTbSl+tjGg6su7savlLIb8cOcKJfdGpA+WdtgqT2OF7O+89Lag0l1SA/iyVlUkT31Jc6OLHqvzsXgmg+niQ==}

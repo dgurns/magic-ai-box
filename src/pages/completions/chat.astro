@@ -1,0 +1,18 @@
+---
+export const partial = true;
+
+import { Ai } from "@cloudflare/ai";
+
+const runtime = Astro.locals.runtime;
+
+const formData = await Astro.request.formData();
+const question = formData.get("question");
+
+const ai = new Ai(runtime.env.AI);
+
+const response = await ai.run("@cf/mistral/mistral-7b-instruct-v0.1", {
+  prompt: `Answer the user's question. User: ${question}. You:`,
+});
+---
+
+<div>Response: {response}</div>
