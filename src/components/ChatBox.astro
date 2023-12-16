@@ -1,40 +1,10 @@
----
-const AnswerType = {
-  Mistral: "mistral",
-  Llama: "llama",
-} as const;
-type AnswerType = (typeof AnswerType)[keyof typeof AnswerType];
-
-const params = new URLSearchParams(Astro.url.search);
-const answerTypeParam = params.get("answer_type");
-
-let answerType: AnswerType = AnswerType.Mistral;
-if (
-  answerTypeParam &&
-  Object.values(AnswerType).includes(answerTypeParam as AnswerType)
-) {
-  answerType = answerTypeParam as AnswerType;
-}
----
-
 <div
   class="flex w-full flex-col items-start gap-8 rounded-3xl border-2 border-purple-600 bg-gray-50 p-8 md:w-[480px]"
 >
-  <form>
-    <select name="answer_type" onchange="this.form.submit()">
-      <option value="mistral" selected={answerType === "mistral"}
-        >Answer with Mistral</option
-      >
-      <option value="llama" selected={answerType === "llama"}
-        >Answer with Llama</option
-      >
-    </select>
-  </form>
-
   <div
-    class="h-32 w-full rounded-xl border border-dashed border-gray-400 bg-white p-4"
+    class="min-h-32 h-auto w-full rounded-xl border border-dashed border-gray-400 bg-white p-4"
   >
-    <div id="completion"></div>
+    <div id="completion" class="text-left"></div>
     <div id="loading" class="htmx-indicator">Loading...</div>
   </div>
 
@@ -42,9 +12,12 @@ if (
     hx-post="/completions/chat"
     hx-target="#completion"
     hx-indicator="#loading"
-    onsubmit="document.getElementById('completion').innerHTML = ''"
     class="flex w-full flex-col items-start gap-4"
   >
+    <select name="model">
+      <option value="mistral">Answer with Mistral</option>
+      <option value="llama">Answer with Llama</option>
+    </select>
     <input
       name="question"
       type="text"
@@ -55,3 +28,13 @@ if (
     <button type="submit">Ask</button>
   </form>
 </div>
+
+<script>
+  document.body.addEventListener("htmx:beforeSend", function (evt) {
+    const completionEl = document.getElementById("completion");
+    if (completionEl) {
+      completionEl.innerHTML = "";
+    }
+    document.querySelector("form")?.reset();
+  });
+</script>

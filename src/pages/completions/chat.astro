@@ -1,16 +1,43 @@
 ---
-import { Ai } from "@cloudflare/ai";
-
 export const partial = true;
 
+interface TextCompletionResponse {
+  result: {
+    response: string;
+  };
+}
+
 const formData = await Astro.request.formData();
-const question = formData.get("question");
+const model = String(formData.get("model") ?? "");
+const question = String(formData.get("question") ?? "");
 
-const ai = new Ai(Astro.locals.runtime.env.AI);
+const messages = [
+  { role: "system", content: "Answer the user's question" },
+  { role: "user", content: question },
+];
 
-const response = await ai.run("@cf/mistral/mistral-7b-instruct-v0.1", {
-  prompt: `Answer the user's question. User: ${question}. You:`,
-});
+const modelNamesToIds: Record<string, string> = {
+  mistral: "@cf/mistral/mistral-7b-instruct-v0.1",
+  llama: "@cf/meta/llama-2-7b-chat-int8",
+};
+
+const modelId = modelNamesToIds[model] ?? modelNamesToIds.mistral;
+
+let response = "";
+try {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/19fbc3afa40daca99965456c784468e2/ai/run/${modelId}`,
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.CF_API_TOKEN}` },
+      method: "POST",
+      body: JSON.stringify({ messages }),
+    },
+  );
+  const asJson: TextCompletionResponse = await res.json();
+  response = asJson.result.response;
+} catch (e) {
+  response = (e as Error).message;
+}
 ---
 
-<div>Response: {response}</div>
+<div>{response}</div>
