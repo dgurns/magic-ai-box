@@ -1,6 +1,20 @@
 ---
+const AnswerType = {
+  Mistral: "mistral",
+  Llama: "llama",
+} as const;
+type AnswerType = (typeof AnswerType)[keyof typeof AnswerType];
+
 const params = new URLSearchParams(Astro.url.search);
-const answerType = params.get("answer_type") || "audio";
+const answerTypeParam = params.get("answer_type");
+
+let answerType: AnswerType = AnswerType.Mistral;
+if (
+  answerTypeParam &&
+  Object.values(AnswerType).includes(answerTypeParam as AnswerType)
+) {
+  answerType = answerTypeParam as AnswerType;
+}
 ---
 
 <div
@@ -8,11 +22,11 @@ const answerType = params.get("answer_type") || "audio";
 >
   <form>
     <select name="answer_type" onchange="this.form.submit()">
-      <option value="audio" selected={answerType === "audio"}
-        >Answer with audio</option
+      <option value="mistral" selected={answerType === "mistral"}
+        >Answer with Mistral</option
       >
-      <option value="text" selected={answerType === "text"}
-        >Answer with text</option
+      <option value="llama" selected={answerType === "llama"}
+        >Answer with Llama</option
       >
     </select>
   </form>
