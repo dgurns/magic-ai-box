@@ -2,8 +2,13 @@ h1 {
   @apply font-serif text-3xl font-semibold;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
   @apply rounded-xl border border-gray-300 p-4 hover:border-gray-500;
+}
+
+textarea {
+  @apply resize-y;
 }
 
 select {

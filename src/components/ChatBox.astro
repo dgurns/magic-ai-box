@@ -2,16 +2,19 @@
   class="flex w-full flex-col items-start gap-8 rounded-3xl border-2 border-purple-600 bg-gray-50 p-8 md:w-[480px]"
 >
   <div
-    id="completion-wrapper"
-    class="min-h-32 hidden h-auto w-full rounded-xl border border-dashed border-gray-400 bg-white p-4"
+    id="chats-container"
+    class="min-h-32 hidden h-auto w-full flex-col gap-4 rounded-xl border border-dashed border-gray-400 bg-white p-4 text-left"
   >
-    <div id="completion" class="text-left"></div>
-    <div id="loading" class="htmx-indicator">Loading...</div>
+    <div id="response"></div>
+    <div id="loading" class="htmx-indicator animate-pulse text-gray-500">
+      Thinking...
+    </div>
   </div>
 
   <form
     hx-post="/completions/chat"
-    hx-target="#completion"
+    hx-target="#response"
+    hx-swap="innerHTML transition:true"
     hx-indicator="#loading"
     class="flex w-full flex-col items-start gap-4"
   >
@@ -20,32 +23,55 @@
       <option value="llama">Answer with Llama</option>
     </select>
     <input
-      name="question"
       type="text"
+      name="question"
       class="w-full"
       placeholder="What would you like to ask?"
       required
     />
-    <button type="submit">Ask</button>
   </form>
+  <button type="submit">Ask</button>
 </div>
 
 <script>
-  document.body.addEventListener("htmx:beforeSend", function (evt) {
-    const completionWrapperEl = document.getElementById("completion-wrapper");
-    if (completionWrapperEl) {
-      completionWrapperEl.classList.remove("hidden");
-      completionWrapperEl.classList.add("flex");
-    }
-    const completionEl = document.getElementById("completion");
-    if (completionEl) {
-      completionEl.innerHTML = "";
-    }
-    const inputEl = document.querySelector<HTMLInputElement>(
-      "input[name=question]",
+  document.addEventListener("htmx:beforeSend", () => {
+    const chatsContainer = document.getElementById("chats-container");
+    const response = document.getElementById("response");
+    const input = document.querySelector<HTMLInputElement>(
+      'input[name="question"]',
     );
-    if (inputEl) {
-      inputEl.value = "";
+
+    if (!chatsContainer || !response || !input) {
+      return;
     }
+
+    response.classList.remove("flex");
+    response.classList.add("hidden");
+
+    chatsContainer.classList.remove("hidden");
+    chatsContainer.classList.add("flex");
+
+    input.value = "";
+  });
+
+  document.addEventListener("htmx:afterSettle", () => {
+    const response = document.getElementById("response");
+
+    if (!response) {
+      return;
+    }
+
+    response.classList.remove("hidden");
+    response.classList.add("flex");
   });
 </script>
+
+<style>
+  .htmx-indicator {
+    display: none;
+  }
+
+  .htmx-request.htmx-indicator {
+    display: flex;
+  }
+</style>
