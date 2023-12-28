@@ -1,6 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ChatBox from "../components/ChatBox.astro";
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, stale-while-revalidate=2592000",
+);
 ---
 
 <Layout
