@@ -1,13 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ChatBox from "../components/ChatBox.astro";
-
-// cache for 10 secs, then serve stale response for 1 year while revalidating
-// in background
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=10, stale-while-revalidate=31536000",
-);
 ---
 
 <Layout
