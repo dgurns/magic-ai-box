@@ -1,5 +1,5 @@
 <div
-  class="flex w-full flex-col items-start gap-8 rounded-3xl border-2 border-purple-600 bg-gray-50 p-8 md:w-[480px]"
+  class="flex w-full flex-col items-start gap-4 rounded-3xl border-2 border-purple-600 bg-gray-50 p-4 md:w-[480px] md:gap-8 md:p-8"
 >
   <div
     id="chats-container"
@@ -19,8 +19,8 @@
     class="flex w-full flex-col items-start gap-4"
   >
     <select name="model">
-      <option value="mistral">Answer with Mistral</option>
-      <option value="llama">Answer with Llama</option>
+      <option value="mistral">Mistral</option>
+      <option value="llama">Llama</option>
     </select>
     <input
       type="text"
@@ -29,8 +29,8 @@
       placeholder="What would you like to ask?"
       required
     />
+    <button type="submit">Ask</button>
   </form>
-  <button type="submit">Ask</button>
 </div>
 
 <script>
