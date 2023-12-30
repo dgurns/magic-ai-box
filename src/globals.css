@@ -19,3 +19,7 @@ button,
 button[type="submit"] {
   @apply rounded-xl bg-purple-600 p-4 font-semibold text-white hover:bg-purple-800;
 }
+
+a {
+  @apply text-purple-600 underline hover:text-purple-800;
+}
